@@ -11,3 +11,9 @@
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
+
+.main-banner {
+  background-image: url("../images/banner.jpg");
+  background-size: 500px;
+  color: blue;
+}
