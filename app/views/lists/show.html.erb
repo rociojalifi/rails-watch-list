@@ -1,5 +1,11 @@
-<div class="position-relative container">
-  <div class="card-category card-large">
+<div
+  class="position-relative banner-card"
+  style="
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+      url('<%= cl_image_path @list.photo.key %>');
+  "
+>
+  <div class="card-category card-large title-style">
     <h1><%= @list.name %></h1>
   </div>
   <div class="container mb-5">
@@ -13,18 +19,40 @@
         ></span
       >
       <div>
-        <button
-          type="button"
-          class="btn btn-flat"
-          data-toggle="modal"
-          data-target="#new_movie_modal"
-        >
-          add a movie
-        </button>
-        <%= link_to 'delete this list', list_path(@list), method: :delete,
-        class: 'btn btn-cancel', data: { confirm: 'Are you sure you want to
-        delete this list?' } %>
+        <%= link_to 'add a movie', new_list_bookmark_path(@list), class: 'btn
+        btn-dark'%> <%= link_to 'delete this list', list_path(@list), method:
+        :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure you
+        want to delete this list?' } %>
       </div>
     </div>
   </div>
 </div>
+<br />
+
+  <%= render 'bookmarks/new', list: @list %>
+</div>
+<div class="container movie-card">
+  <div class="row">
+    <% @list.movies.each do |movie| %> <% bookmark = Bookmark.find_by(list:
+    @list, movie: movie) %>
+    <div class="col-4 mb-4">
+      <div class="bg-white">
+        <%= image_tag movie.poster_url, alt: movie.title, class: 'movie-img' %>
+        <div class="p-3 rounded-bottom flex-column">
+          <strong><%= movie.title %> | <%= movie.rating %></strong>
+          <small class="text-muted"><%= movie.overview %></small>
+          <div class="d-flex align-items-end justify-content-between pt-4">
+            <div>
+              <small class="flex-grow-1"><%= bookmark.comment %></small>
+            </div>
+            <small class="text-right flex-shrink-0"
+              ><%= link_to 'delete', bookmark_path(bookmark), method: :delete,
+              data: { confirm: "Are you sure you want to remove #{movie.title}
+              from your #{@list.name} list"}, class: 'text-danger' %></small
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  </div>

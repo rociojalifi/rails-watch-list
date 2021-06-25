@@ -6,6 +6,7 @@ before_action :set_list, only: [:show, :destroy]
   end
 
   def show
+    @bookmark = Bookmark.new
   end
 
   def new
@@ -33,6 +34,6 @@ before_action :set_list, only: [:show, :destroy]
   end
 
   def list_params
-    params.require(:list).permit(:name)
+    params.require(:list).permit(:name, :photo)
   end
 end
